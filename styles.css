@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -48,9 +50,49 @@ table {
 }
 /* HEADER **********/
 
+header {
+    padding: 1rem 1rem 1rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(34, 39, 39);
+}
+
+header h1 {
+    font-size: 48px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-style: italic;
+    color: skyblue;
+}
+
+header #login form {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    color: white;
+}
+
+header #login form input {
+    margin-bottom: 0.5rem;
+}
+
+#login-button {
+    background-color: green;
+    border-radius: 15px;
+}
+
 /* MAIN ***********/
 
 /* FOOTER **********/
+
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 6rem;
+}
+
+footer h4 {
+    padding: 0.2rem;
+}
 
 #heart {
     color: red;
