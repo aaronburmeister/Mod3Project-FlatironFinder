@@ -10,24 +10,204 @@
 <body>
     <header>
         <h1>FLATIRON<br>FINDER</h1>
-        <div id="login-signup">
+        <div class="login-signup">
             <button id="log-in"><ion-icon name="finger-print-outline"></ion-icon> Log In</button>
             <button id="sign-up"><ion-icon name="add-outline"></ion-icon> Sign Up</button>
         </div>
+        <div class="greeting hidden">
+            <h3 style="color: white;">Hi, Example</h3>
+        </div>
     </header>
     <main>
-        <div id="splash-main" hidden>
+        <!-- Splash Page-->
+        <div class="splash-main">
             <img id="splash" src="./images/splash2.jpg">
             <h3>Find fellow Flatiron Students! Easily locate their Github, LinkedIn, and blog site! Filter by Cohort, Campus, Language, Framework, and more!</h3>
         </div>
-        <div id="login-main">
-            <form>
+        <!-- Log In Form -->
+        <div class="login-main hidden">
+            <h3>Log In</h3>
+            <form id="login-form">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Username">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Password">
-                <input type="submit" id="login-button" value="Login">
+                <input type="submit" id="login-button" value="Log In">
             </form>
+        </div>
+        <!-- Sign Up Form -->
+        <div class="signup-main hidden">
+            <h3>Sign Up</h3>
+            <form id="signup-form">
+                <div id="part-1">
+                    <div>
+                        <div class="form-field">
+                            <label for="signup-username">Username:</label>
+                            <input type="text" id="signup-username" name="username" placeholder="Username">
+                        </div>
+
+                        <div class="form-field">
+                            <label for="signup-password">Password:</label>
+                            <input type="password" id="signup-password" name="password" placeholder="Password">
+                        </div>
+                        <div class="form-field">
+                            <label for="password-confirm">Confirm Password:</label>
+                            <input type="password" id="password-confirm" name="password_confirm" placeholder="Confirm Password">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="signup-email">Email:</label>
+                            <input type="email" id="signup-email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-field">
+                            <label for="signup-campus">Campus:</label>
+                            <select type="text" id="signup-campus" name="campus" list="campus_list">
+                                <option disabled selected>Please select a campus</option>
+                                <option value="Atlanta, GA">Atlanta, GA</option>
+                                <option value="Austin, TX">Austin, TX</option>
+                                <option value="Chicago, IL">Chicago, IL</option>
+                                <option value="Denver, CO">Denver, CO</option>
+                                <option value="Houston, TX">Houston, TX</option>
+                                <option value="London, UK">London, UK</option>
+                                <option value="New York City, NY">New York City, NY</option>
+                                <option value="San Francisco, CA">San Francisco, CA</option>
+                                <option value="Seattle, WA">Seattle, WA</option>
+                                <option value="Washington, D.C.">Washington, D.C.</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="signup-cohort">Your Cohort:</label>
+                            <input type="text" id="signup-cohort" name="cohort" list="cohort_list" placeholder="Cohort">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="signup-github">Your Github URL:</label>
+                            <input type="text" id="signup-github" name="github" placeholder="Github URL">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="signup-linkedin">Your LinkedIn URL:</label>
+                            <input type="text" id="signup-linkedin" name="linkedin" placeholder="LinkedIn URL">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="signup-blog">Your Blog URL:</label>
+                            <input type="text" id="signup-blog" name="blog" placeholder="Blog URL">
+                        </div>
+                    </div>
+                </div>
+                <div id="select-languages">
+                    <label for="languages">Please enter any languages or frameworks you know:</label>
+                    <input type="text" id="language" name="languages" list="language-list" placeholder="Type the language or framework here">
+                    <datalist id="language-list">
+                        <option value="Ruby">Ruby</option>
+                        <option value="Python">Python</option>
+                        <option value="Django">Django</option>
+                        <option value="Rails">Rails</option>
+                    </datalist>
+                    <button id="add-language">Add Language</button>
+                </div>
+                <div id="known-languages">
+                    <!-- <span class="language-block">Ruby<ion-icon name="close-circle-outline"></ion-icon></span> -->
+                </div>
+                <input type="submit" id="signup-button" value="Sign Up">
+            </form>
+        </div>
+        <!-- Logged In Page -->
+        <div class="user-main hidden">
+            <aside id="filters">
+                <h3>Filter Results</h3>
+                <form id="filter-form">
+                    <label for="filter">Filter By:</label>
+                    <select id="filter" name="filter">
+                        <option disabled selected>Select a Filter</option>
+                        <option value="campus">Campus</option>
+                        <option value="cohort">Cohort</option>
+                        <option value="framework">Framework</option>
+                        <option value="language">Language</option>
+                    </select>
+                    <label for="search">Search for:</label>
+                    <input type="search" id="search" name="search" placeholder="e.g. Python, Express, Bits Please...">
+                    <input type="submit" value="Search">
+                </form>
+            </aside>
+            <section id="cards-container">
+                <div class="card">
+                    <div class="profile-image">
+                        <img class="profile-picture" src="https://learnworthy.net/wp-content/uploads/2019/10/10-things-every-programmer-should-know.jpg">
+                    </div>
+                    <div class="profile-info">
+                        <h4>Aaron Burgermeister-meisterburger</h4>
+                        <h5>Campus</h5>
+                    </div>
+                    <div class="icon-links">
+                        <ion-icon name="logo-github"></ion-icon>
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                        <ion-icon name="create"></ion-icon>
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="profile-image">
+                        <img class="profile-picture" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9">
+                    </div>
+                    <div class="profile-info">
+                        <h4>Name</h4>
+                        <h5>Campus</h5>
+                    </div>
+                    <div class="icon-links">
+                        <ion-icon name="logo-github"></ion-icon>
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                        <ion-icon name="create"></ion-icon>
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="profile-image">
+
+                    </div>
+                    <div class="profile-info">
+                        <h4>Name</h4>
+                        <div class="icon-links">
+                            <ion-icon name="logo-github"></ion-icon>
+                            <ion-icon name="logo-linkedin"></ion-icon>
+                            <ion-icon name="create"></ion-icon>
+                            <ion-icon name="mail"></ion-icon>
+                        </div>
+                    </div>  
+                </div>
+            </section>
+            <aside id="my-profile">
+                <a href="/">View My Profile</a>
+                <a href="/">Edit My Profile</a>
+            </aside>
+        </div>
+        <div class="user-view hidden">
+            <div class="user-header">
+                <img class="profile-view-image" src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png">
+                <div class="user-info">
+                    <h2>Name</h2>
+                    <h3>Campus</h3>
+                    <h3>Cohort</h3>
+                    <div class="profile-icon-links">
+                        <ion-icon name="logo-github"></ion-icon>
+                        <ion-icon name="logo-linkedin"></ion-icon>
+                        <ion-icon name="create"></ion-icon>
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                </div>
+            </div>
+            <h4>Languages and Frameworks:</h4>
+            <ul class="language-list">
+                <li>Ruby</li>
+                <li>Python
+                    <ul><li>Django</li></ul>
+                </li>
+            </ul>
         </div>
     </main>
     <footer>

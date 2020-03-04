@@ -1,44 +1,70 @@
 const BASE_URL = "http://localhost:3000/"
 
-const loginForm = document.querySelector('#login form')
 
-loginForm.addEventListener('submit', event => {
-    event.preventDefault()
+// All main pages
+const splashMain = document.querySelector('.splash-main')
+const loginMain = document.querySelector('.login-main')
+const signupMain = document.querySelector('.signup-main')
+const userMain = document.querySelector('.user-main')
+const userView = document.querySelector('.user-view')
 
-    const formData = new FormData(event.target)
-    const username = formData.get('username')
-    const password = formData.get('password')
+const flatironFinder = document.querySelector('header h1')
 
-    console.log(username, password)
+flatironFinder.addEventListener('click', event => {
+    splashMain.classList.remove('hidden')
 
-    // fetch(BASE_URL + "users", {
-    //     method: "POST",
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: { username, password }
-    // }).then(response => response.json())
-    // .then(console.log)
-    // event.target.reset()
+    signupMain.classList.remove('hidden')
+    signupMain.classList.add('hidden')
+    loginMain.classList.remove('hidden')
+    loginMain.classList.add('hidden')
 })
 
-/* LOGIN FORM - put the following inside the #login element
-<form>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" placeholder="Username">
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" placeholder="Password">
-    <input type="submit" id="login-button" value="Login">
-</form>
-*/
+// Log In
+const $loginButton = document.querySelector('#log-in')
+
+$loginButton.addEventListener('click', event => {
+    loginMain.classList.remove('hidden')
+    signupMain.classList.remove('hidden')
+    signupMain.classList.add('hidden')
+    splashMain.classList.remove('hidden')
+    splashMain.classList.add('hidden')
+})
+
+// Sign Up
+const $signupButton = document.querySelector('#sign-up')
+
+$signupButton.addEventListener('click', event => {
+    signupMain.classList.remove('hidden')
+    loginMain.classList.remove('hidden')
+    loginMain.classList.add('hidden')
+    splashMain.classList.remove('hidden')
+    splashMain.classList.add('hidden')
+})
 
 
-/* LOGGED IN - MAIN
-<aside id="filters">
 
-</aside>
-<section id="user-cards">
+// ADD LANGUAGE TO SIGNUP PAGE 
+const $addLanguageBtn = document.querySelector('#add-language')
 
-</section>
-*/
+$addLanguageBtn.addEventListener('click', event => {
+    event.preventDefault()
+
+    addToKnownLanguages(document.querySelector('#language').value)
+
+    document.querySelector('#language').value = ""
+})
+
+function addToKnownLanguages(language) {
+    const $signupList = document.querySelector('#known-languages')
+    const $span = document.createElement('span')
+
+    $span.className = "language-block"
+    $span.innerHTML = `
+        ${language} <ion-icon name="close-circle-outline"></ion-icon>
+    `
+    $span.querySelector('ion-icon').addEventListener("click", event =>{
+        event.target.parentNode.remove()
+    })
+
+    $signupList.appendChild($span)
+}
