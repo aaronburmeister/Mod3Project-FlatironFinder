@@ -10,7 +10,17 @@
 <body>
     <header>
         <h1>FLATIRON<br>FINDER</h1>
-        <div id="login">
+        <div id="login-signup">
+            <button id="log-in"><ion-icon name="finger-print-outline"></ion-icon> Log In</button>
+            <button id="sign-up"><ion-icon name="add-outline"></ion-icon> Sign Up</button>
+        </div>
+    </header>
+    <main>
+        <div id="splash-main" hidden>
+            <img id="splash" src="./images/splash2.jpg">
+            <h3>Find fellow Flatiron Students! Easily locate their Github, LinkedIn, and blog site! Filter by Cohort, Campus, Language, Framework, and more!</h3>
+        </div>
+        <div id="login-main">
             <form>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Username">
@@ -18,12 +28,6 @@
                 <input type="password" id="password" name="password" placeholder="Password">
                 <input type="submit" id="login-button" value="Login">
             </form>
-        </div>
-    </header>
-    <main>
-        <div id="splash-main">
-            <img id="splash" src="./images/splash2.jpg">
-            <h3>Find fellow Flatiron Students! Easily locate their Github, LinkedIn, and blog site! Filter by Cohort, Campus, Language, Framework, and more!</h3>
         </div>
     </main>
     <footer>
