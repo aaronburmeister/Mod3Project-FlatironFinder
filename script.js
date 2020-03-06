@@ -62,7 +62,10 @@ $loginForm.addEventListener('submit', event => {
         hide($loginSignup)
         userMain.classList.remove('hidden')
         $greeting.classList.remove('hidden')
-        $greeting.textContent = `Hi, ${user.username}`
+        $greeting.innerHTML = `
+        <h3>Hi, ${user.username}</h3>
+        <button onclick="logOut()">Log Out</button>
+        `
     })
 })
 
@@ -229,51 +232,144 @@ function appendSpanWithMetaData(span, option, signupList) {
 function loadUsers() {
     fetch(`${BASE_URL}users`)
         .then(response => response.json())
-        .then(users => {
-            users.forEach(user => {
-                const $card = document.createElement('div')
-                $card.classList.add('card')
+        .then(renderCards)
+}
 
-                $card.innerHTML = `
-                    <div class="profile-image">
-                        <img class="profile-picture" src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png">
-                    </div>
-                    <div class="profile-info">
-                        <h4>${user.name}</h4>
-                        <h5>${user.campus}</h5>
-                    </div>
-                    <div class="icon-links">
+function renderCards(users) {
+    users.forEach(user => {
+        const $card = document.createElement('div')
+        $card.classList.add('card')
+
+        $card.innerHTML = `
+            <div class="profile-image">
+                <img class="profile-picture" dataset_id="${user.id}" src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png">
+            </div>
+            <div class="profile-info">
+                <h4>${user.name}</h4>
+                <h5>${user.campus}</h5>
+            </div>
+            <div class="icon-links">
+                <a href="mailto:${user.email}"><ion-icon name="mail"></ion-icon></a>
+            </div>
+        `
+
+        const $img = $card.querySelector('.profile-picture')
+
+        $img.addEventListener('click', event => {
+            hide(userMain)
+            userView.classList.remove('hidden')
+            generateUser(user)
+        })
+
+        const $iconLinks = $card.querySelector('.icon-links')
+
+        if (user.blog) {
+            const blogLink = document.createElement('a')
+            blogLink.href = user.blog
+            blogLink.innerHTML = `
+            <ion-icon name="create"></ion-icon>
+            `
+            $iconLinks.prepend(blogLink)
+        }
+        if (user.linkedin) {
+            const linkedinLink = document.createElement('a')
+            linkedinLink.href = user.linkedin
+            linkedinLink.innerHTML = `
+            <ion-icon name="logo-linkedin"></ion-icon>
+            `
+            $iconLinks.prepend(linkedinLink)
+        }
+        if (user.github) {
+            const githubLink = document.createElement('a')
+            githubLink.href = user.github
+            githubLink.innerHTML = `
+            <ion-icon name="logo-github"></ion-icon>
+            `
+            $iconLinks.prepend(githubLink)
+        } 
+
+        document.querySelector('#cards-container').appendChild($card)
+    })
+}
+
+/* FILTER *****/
+
+const $filterForm = document.querySelector('#filter-form')
+
+$filterForm.addEventListener('submit', event => {
+    event.preventDefault()
+
+    const formData = new FormData(event.target)
+    const search = formData.get('search')
+    const filter = formData.get('filter')
+
+    fetch(`${BASE_URL}users?search=${search}&filter=${filter}`)
+        .then(response => response.json())
+        .then(response => {
+            document.querySelector('#cards-container').innerHTML = ""
+            return response
+        })
+        .then(renderCards)
+})
+
+/* GENERATE USER VIEW ******/
+
+function generateUser(user) {
+    userView.innerHTML = `
+        <div class="user-header">
+                <img class="profile-view-image" src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png">
+                <div class="user-info">
+                    <h2>${user.name}</h2>
+                    <h3>${user.campus}</h3>
+                    <h3>${user.cohort}</h3>
+                    <div class="profile-icon-links">
                         <a href="mailto:${user.email}"><ion-icon name="mail"></ion-icon></a>
                     </div>
-                `
-                const $iconLinks = $card.querySelector('.icon-links')
+                </div>
+            </div>
+            <h4>Languages and Frameworks:</h4>
+            <ul class="language-list">
+            </ul>
+        </div>
+        <button class="back-button" onclick="backToMain()">Go Back</button>
+    `
+    const $profileLinks = userView.querySelector('.profile-icon-links')
+    if (user.blog) {
+        const blogLink = document.createElement('a')
+        blogLink.href = user.blog
+        blogLink.innerHTML = `
+        <ion-icon name="create"></ion-icon>
+        `
+        $profileLinks.prepend(blogLink)
+    }
+    if (user.linkedin) {
+        const linkedinLink = document.createElement('a')
+        linkedinLink.href = user.linkedin
+        linkedinLink.innerHTML = `
+        <ion-icon name="logo-linkedin"></ion-icon>
+        `
+        $profileLinks.prepend(linkedinLink)
+    }
+    if (user.github) {
+        const githubLink = document.createElement('a')
+        githubLink.href = user.github
+        githubLink.innerHTML = `
+        <ion-icon name="logo-github"></ion-icon>
+        `
+        $profileLinks.prepend(githubLink)
+    }
+}
 
-                if (user.blog) {
-                    const blogLink = document.createElement('a')
-                    blogLink.href = user.blog
-                    blogLink.innerHTML = `
-                    <ion-icon name="create"></ion-icon>
-                    `
-                    $iconLinks.prepend(blogLink)
-                }
-                if (user.linkedin) {
-                    const linkedinLink = document.createElement('a')
-                    linkedinLink.href = user.linkedin
-                    linkedinLink.innerHTML = `
-                    <ion-icon name="logo-linkedin"></ion-icon>
-                    `
-                    $iconLinks.prepend(linkedinLink)
-                }
-                if (user.github) {
-                    const githubLink = document.createElement('a')
-                    githubLink.href = user.github
-                    githubLink.innerHTML = `
-                    <ion-icon name="logo-github"></ion-icon>
-                    `
-                    $iconLinks.prepend(githubLink)
-                } 
+function backToMain() {
+    hide(userView)
+    userMain.classList.remove('hidden')
+}
 
-                document.querySelector('#cards-container').appendChild($card)
-            })
-        })
+function logOut() {
+    hide(userView)
+    hide(userMain)
+    splashMain.classList.remove('hidden')
+    hide($greeting)
+    $loginSignup.classList.remove('hidden')
+    localStorage.removeItem('token')
 }

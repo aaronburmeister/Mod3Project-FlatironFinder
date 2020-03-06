@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -50,6 +51,13 @@ table {
 }
 
 /* GLOBAL **********/
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-family: 'Roboto', sans-serif;
+}
 
 /* HEADER **********/
 
@@ -103,7 +111,14 @@ header h1:hover {
 
 .greeting {
     color: white;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+}
+
+.greeting h3 {
+    font-size: 24px;
+    margin-bottom: 1rem;
 }
 
 #sign-up {
@@ -278,6 +293,13 @@ header h1:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: fit-content;
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+#filters h3 {
+    font-size: 28px;
+    margin-bottom: 1rem;
 }
 
 #filter-form {
@@ -353,7 +375,16 @@ header h1:hover {
     color: white;
 }
 
-.icon-links a:hover {
+.profile-icon-links a {
+    text-decoration: none;
+    color: black;
+}
+
+.profile-image img:hover {
+    cursor: pointer;
+}
+
+.icon-links a:hover, .profile-icon-links a:hover {
     color: skyblue;
     text-decoration: none;
 }
@@ -426,6 +457,7 @@ footer {
     display: flex;
     justify-content: center;
     padding: 3rem;
+    margin-top: auto;
 }
 
 footer h4 {
