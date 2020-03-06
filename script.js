@@ -56,17 +56,24 @@ $loginForm.addEventListener('submit', event => {
         },
         body: JSON.stringify(user)
     }).then(response => response.json())
-    .then(response => localStorage.setItem('token', `bearer ${response.token}`))
     .then(response => {
-        hide(loginMain)
-        hide($loginSignup)
-        userMain.classList.remove('hidden')
-        $greeting.classList.remove('hidden')
-        $greeting.innerHTML = `
-        <h3>Hi, ${user.username}</h3>
-        <button onclick="logOut()">Log Out</button>
-        `
+        if (response.token) {
+            localStorage.setItem('token', `bearer ${response.token}`)
+        }
     })
+    .then(response => {
+        if (localStorage.getItem('token')) {
+            hide(loginMain)
+            hide($loginSignup)
+            userMain.classList.remove('hidden')
+            $greeting.classList.remove('hidden')
+            $greeting.innerHTML = `
+            <h3>Hi, ${user.username}</h3>
+            <button onclick="logOut()">Log Out</button>
+            `
+        }
+    })
+    .catch(alert("Nice try. Try a real username and password, or Sign Up"))
 })
 
 // Sign Up
