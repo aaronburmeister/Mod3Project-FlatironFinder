@@ -68,6 +68,10 @@ header h1 {
     color: skyblue;
 }
 
+header h1:hover {
+    cursor: pointer;
+}
+
 /* LOGIN-SIGNUP *****/
 
 .login-signup {
@@ -95,6 +99,11 @@ header h1 {
 
 #log-in:focus, #sign-up:focus {
     outline: 0;
+}
+
+.greeting {
+    color: white;
+    justify-content: center;
 }
 
 #sign-up {
@@ -239,6 +248,18 @@ header h1 {
     padding: 1rem;
 }
 
+#pop-up {
+    position: relative;
+    bottom: 0px;
+    right: 0px;
+    width: 200px;
+    padding: 0.5rem;
+    background-color: skyblue;
+    border-radius: 15px;
+    text-align: center;
+    color: black;
+}
+
 /* USER MAIN *****/
 
 .user-main {
@@ -326,6 +347,15 @@ header h1 {
     font-size: 36px;
     width: 100%;
     margin-bottom: 5px;
+}
+
+.icon-links a {
+    color: white;
+}
+
+.icon-links a:hover {
+    color: skyblue;
+    text-decoration: none;
 }
 
 #my-profile {

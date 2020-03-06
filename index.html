@@ -56,6 +56,11 @@
                         </div>
                         
                         <div class="form-field">
+                            <label for="signup-name">Full Name:</label>
+                            <input type="text" id="signup-name" name="name" placeholder="Name">
+                        </div>
+                        
+                        <div class="form-field">
                             <label for="signup-email">Email:</label>
                             <input type="email" id="signup-email" name="email" placeholder="Email">
                         </div>
@@ -64,7 +69,7 @@
                     <div>
                         <div class="form-field">
                             <label for="signup-campus">Campus:</label>
-                            <select type="text" id="signup-campus" name="campus" list="campus_list">
+                            <select type="text" id="signup-campus" name="campus">
                                 <option disabled selected>Please select a campus</option>
                                 <option value="Atlanta, GA">Atlanta, GA</option>
                                 <option value="Austin, TX">Austin, TX</option>
@@ -104,13 +109,11 @@
                     <label for="languages">Please enter any languages or frameworks you know:</label>
                     <input type="text" id="language" name="languages" list="language-list" placeholder="Type the language or framework here">
                     <datalist id="language-list">
-                        <option value="Ruby">Ruby</option>
-                        <option value="Python">Python</option>
-                        <option value="Django">Django</option>
-                        <option value="Rails">Rails</option>
+                
                     </datalist>
                     <button id="add-language">Add Language</button>
                 </div>
+                <div id="pop-up" class="hidden"></div>
                 <div id="known-languages">
                     <!-- <span class="language-block">Ruby<ion-icon name="close-circle-outline"></ion-icon></span> -->
                 </div>
@@ -136,7 +139,7 @@
                 </form>
             </aside>
             <section id="cards-container">
-                <div class="card">
+                <!-- <div class="card">
                     <div class="profile-image">
                         <img class="profile-picture" src="https://learnworthy.net/wp-content/uploads/2019/10/10-things-every-programmer-should-know.jpg">
                     </div>
@@ -179,7 +182,7 @@
                             <ion-icon name="mail"></ion-icon>
                         </div>
                     </div>  
-                </div>
+                </div> -->
             </section>
             <aside id="my-profile">
                 <a href="/">View My Profile</a>
