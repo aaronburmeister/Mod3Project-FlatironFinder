@@ -27,7 +27,6 @@ function hide(element) {
 const $loginButton = document.querySelector('#log-in')
 
 $loginButton.addEventListener('click', event => {
-    loadUsers()
     loginMain.classList.remove('hidden')
     hide(signupMain)
     hide(splashMain)
@@ -73,6 +72,7 @@ $loginForm.addEventListener('submit', event => {
             <h3>Hi, ${user.username}</h3>
             <button onclick="logOut()">Log Out</button>
             `
+            loadUsers()
         }
     })
 })
