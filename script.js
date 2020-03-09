@@ -59,10 +59,12 @@ $loginForm.addEventListener('submit', event => {
     .then(response => {
         if (response.token) {
             localStorage.setItem('token', `bearer ${response.token}`)
+        } else if (response.message) {
+            alert(response.message)
         }
     })
     .then(response => {
-        if (localStorage.getItem('token')) {
+        if (localStorage.getItem('token') !== null) {
             hide(loginMain)
             hide($loginSignup)
             userMain.classList.remove('hidden')
@@ -73,7 +75,6 @@ $loginForm.addEventListener('submit', event => {
             `
         }
     })
-    .catch(alert("Nice try. Try a real username and password, or Sign Up"))
 })
 
 // Sign Up
@@ -143,13 +144,21 @@ $signupForm.addEventListener('submit', event => {
         body: JSON.stringify({user: user, languages: languages, frameworks: frameworks})
     }).then(response => response.json())
     .then(response => {
-        hide(signupMain)
-        loginMain.classList.remove('hidden')
-        alert("Your registration was successful!")
-        event.target.reset()
-        return response
+        if (response.error) {
+            let alertMessage = ""
+            Object.keys(response.error).forEach( key => {
+                Object.values(response.error[key]).forEach( value => {
+                    alertMessage += `${key} ${value} \n`
+                })
+            })
+            alert(alertMessage)
+        } else {
+            hide(signupMain)
+            loginMain.classList.remove('hidden')
+            alert("Your registration was successful! You can now log in!")
+            event.target.reset()
+        }
     })
-    .catch(alert(response))
 })
 
 function getLanguages() {
