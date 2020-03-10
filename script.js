@@ -57,8 +57,9 @@ $loginForm.addEventListener('submit', event => {
     }).then(response => response.json())
     .then(response => {
         if (response.token) {
-            localStorage.setItem('token', `bearer ${response.token}`)
+            localStorage.setItem('token', `Bearer ${response.token}`)
         } else if (response.message) {
+            // Make these pop-ups around the specific field
             alert(response.message)
         }
     })
@@ -114,6 +115,30 @@ function listTechnology(technologies, technology) {
         $datalistOptions.appendChild(option)
     })
 }
+
+// Upload Profile Picture
+
+const $uploadFile = document.querySelector('#prof-image')
+const $preview = document.querySelector('#prof-pic-preview')
+
+$uploadFile.addEventListener('change', function() {
+    addImage(this)
+})
+
+function addImage(input) {
+
+    let image = new FileReader()
+
+    image.onload = function(e) {
+        $preview.setAttribute('src', e.target.result)
+    }
+
+    image.readAsDataURL(input.files[0])
+
+    console.log(input.files[0])
+
+}
+
 
 // Sign Up Form Submission
 
@@ -274,7 +299,7 @@ function renderCards(users) {
         $img.addEventListener('click', event => {
             hide(userMain)
             userView.classList.remove('hidden')
-            generateUser(user)
+            createUserView(user)
         })
 
         const $iconLinks = $card.querySelector('.icon-links')
@@ -330,7 +355,7 @@ $filterForm.addEventListener('submit', event => {
 
 /* GENERATE USER VIEW ******/
 
-function generateUser(user) {
+function createUserView(user) {
     userView.innerHTML = `
         <div class="user-header">
                 <img class="profile-view-image" src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png">
@@ -374,7 +399,24 @@ function generateUser(user) {
         `
         $profileLinks.prepend(githubLink)
     }
+
+    console.log("LANGUAGES", user.languages)
+    console.log("FRAMEWORKS", user.frameworks)
+    user.languages.forEach( language => {
+        const div = document.createElement('div')
+        div.innerText = language.name
+        user.frameworks.forEach( framework => {
+            if (framework.language_id === language.id) {
+                const li = document.createElement('li')
+                li.innerText = framework.name
+                div.appendChild(li)
+            }
+        document.querySelector('.language-list').appendChild(div)
+        })
+    })
 }
+
+
 
 function backToMain() {
     hide(userView)
