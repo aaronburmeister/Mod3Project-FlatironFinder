@@ -21,7 +21,7 @@ As a user, one should be able to...
 ## Installation Instructions
 
 Requirements:  
-1. Download and Install Ruby if you don't have it. This is required for the backend database to work. See the Backend Repository.  
+1. Download and Install Ruby if you don't have it. This is required for the backend database to work. [See the Backend Repository](https://github.com/aaronburmeister/Mod3Project-FlatironFinder-Backend).
 2. Clone this repository and open `index.html`
 
 ## Contributor's Guide
