@@ -127,11 +127,15 @@ $uploadFile.addEventListener('change', function() {
 
 function addImage(input) {
 
+    console.log(input)
+
     let image = new FileReader()
 
     image.onload = function(e) {
         $preview.setAttribute('src', e.target.result)
+        console.log(e.target.result)
     }
+    console.log(image)
 
     image.readAsDataURL(input.files[0])
 
