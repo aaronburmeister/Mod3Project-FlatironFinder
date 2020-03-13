@@ -1,6 +1,5 @@
 const BASE_URL = "http://localhost:3000/"
 
-
 // All main pages
 const splashMain = document.querySelector('.splash-main')
 const loginMain = document.querySelector('.login-main')
@@ -57,20 +56,23 @@ $loginForm.addEventListener('submit', event => {
     }).then(response => response.json())
     .then(response => {
         if (response.token) {
-            localStorage.setItem('token', `Bearer ${response.token}`)
+            localStorage.setItem('token', `bearer ${response.token}`)
+            return response.user
         } else if (response.message) {
             // Make these pop-ups around the specific field
             alert(response.message)
         }
     })
     .then(response => {
-        if (localStorage.getItem('token') !== null) {
+        if (localStorage.getItem('token')) {
             hide(loginMain)
             hide($loginSignup)
             userMain.classList.remove('hidden')
             $greeting.classList.remove('hidden')
+            localStorage.setItem('name', response.name)
+            localStorage.setItem('id', response.id)
             $greeting.innerHTML = `
-            <h3>Hi, ${user.username}</h3>
+            <h3 dataset_id="${response.id}">Hi, ${response.name}</h3>
             <button onclick="logOut()">Log Out</button>
             `
             loadUsers()
@@ -127,20 +129,30 @@ $uploadFile.addEventListener('change', function() {
 
 function addImage(input) {
 
-    console.log(input)
-
     let image = new FileReader()
 
     image.onload = function(e) {
-        $preview.setAttribute('src', e.target.result)
-        console.log(e.target.result)
+        // base64 encoded
+        file = e.target.result
+
+        fetch("https://api.cloudinary.com/v1_1/oneflatboi/image/upload", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'file': file,
+                'upload_preset': 'flatironfinder'
+            })
+        }).then(response => response.json())
+        .then(result => {
+            $preview.setAttribute('src', result.url)
+            console.log(result)
+        })
+        .catch(console.log)
     }
-    console.log(image)
 
     image.readAsDataURL(input.files[0])
-
-    console.log(input.files[0])
-
 }
 
 
@@ -160,6 +172,9 @@ $signupForm.addEventListener('submit', event => {
     if (formData.get('github')) user['github'] = formData.get('github')
     if (formData.get('linkedin')) user['linkedin'] = formData.get('linkedin')
     if (formData.get('blog')) user['blog'] = formData.get('blog')
+    if ($preview.src !== "https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png") {
+        user['profile_pic'] = $preview.src
+    }
     const languages = getLanguages()
     const frameworks = getFrameworks()
 
@@ -281,13 +296,27 @@ function loadUsers() {
 }
 
 function renderCards(users) {
+    console.log(users)
     users.forEach(user => {
+        // generate links
+        console.log( user.id, $greeting.querySelector('h3').getAttribute('dataset_id'))
+        if (user.id == $greeting.querySelector('h3').getAttribute('dataset_id')) {
+            generateViewLink(user)
+            generateEditLink(user)
+            generateDelete(user)
+        }
+
+        // generate cards
         const $card = document.createElement('div')
         $card.classList.add('card')
 
+        let src;
+
+        user.profile_pic ? src = user.profile_pic : src = "https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png"
+
         $card.innerHTML = `
             <div class="profile-image">
-                <img class="profile-picture" dataset_id="${user.id}" src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png">
+                <img class="profile-picture" dataset_id="${user.id}" src="${src}">
             </div>
             <div class="profile-info">
                 <h4>${user.name}</h4>
@@ -336,6 +365,64 @@ function renderCards(users) {
         document.querySelector('#cards-container').appendChild($card)
     })
 }
+/* Generate Links ******/
+
+function generateViewLink(user) {
+    const viewButton = document.createElement('button')
+    
+    viewButton.id = "view-button"
+    viewButton.innerText = "View Profile"
+    viewButton.onclick = () => {
+        hide(userMain)
+        userView.classList.remove('hidden')
+        createUserView(user)
+    }
+
+    document.querySelector('#my-profile').append(viewButton)
+}
+
+function generateEditLink(user) {
+    const editButton = document.createElement('button')
+
+    editButton.id = "edit-button"
+    editButton.innerText = "Edit Profile"
+
+    document.querySelector('#my-profile').append(editButton)
+}
+
+function generateDelete(user) {
+    const deleteButton = document.createElement('button')
+
+    deleteButton.id = "delete-button"
+    deleteButton.innerText = "Delete Profile"
+    deleteButton.onclick = () => {
+        if (confirm("Are you sure you want to delete your account?")) {
+            fetch(`${BASE_URL}users/${user.id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: localStorage.getItem('token')
+                }
+            }).then(response => response.json())
+            .then(response => {
+                if (response.user) {
+                    // request api delete profile image
+                    logOut()
+                    const imageName = response.user.profile_pic.split("/").pop().split(".")[0]
+                    const public_id = "flatiron_finder_profile_pics/" + imageName
+                    console.log(public_id)
+                    fetch(`https://res.cloudinary.com/oneflatboi/image/destroy`, {
+                        method: "POST",
+                        body: JSON.stringify({ public_id })
+                    })
+                } else {
+                    alert(response.message)
+                }
+            })
+        }
+    }
+
+    document.querySelector('#my-profile').append(deleteButton)
+}
 
 /* FILTER *****/
 
@@ -360,9 +447,12 @@ $filterForm.addEventListener('submit', event => {
 /* GENERATE USER VIEW ******/
 
 function createUserView(user) {
+    let src;
+    user.profile_pic ? src = user.profile_pic : src = "https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png" 
+
     userView.innerHTML = `
         <div class="user-header">
-                <img class="profile-view-image" src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png">
+                <img class="profile-view-image" src="${src}">
                 <div class="user-info">
                     <h2>${user.name}</h2>
                     <h3>${user.campus}</h3>
@@ -404,8 +494,6 @@ function createUserView(user) {
         $profileLinks.prepend(githubLink)
     }
 
-    console.log("LANGUAGES", user.languages)
-    console.log("FRAMEWORKS", user.frameworks)
     user.languages.forEach( language => {
         const div = document.createElement('div')
         div.innerText = language.name
@@ -420,7 +508,18 @@ function createUserView(user) {
     })
 }
 
-
+if (localStorage.token) {
+    hide(splashMain)
+    hide(loginMain)
+    hide($loginSignup)
+    userMain.classList.remove('hidden')
+    $greeting.classList.remove('hidden')
+    $greeting.innerHTML = `
+        <h3 dataset_id="${localStorage.getItem('id')}">Hi, ${localStorage.getItem('name')}</h3>
+        <button onclick="logOut()">Log Out</button>
+        `
+    loadUsers()
+}
 
 function backToMain() {
     hide(userView)
@@ -433,5 +532,10 @@ function logOut() {
     splashMain.classList.remove('hidden')
     hide($greeting)
     $loginSignup.classList.remove('hidden')
+    $greeting.innerHTML = ""
+    document.querySelector('#cards-container').innerHTML = ""
+    document.querySelector('#my-profile').innerHTML = ""
     localStorage.removeItem('token')
+    localStorage.removeItem('name')
+    localStorage.removeItem('id')
 }

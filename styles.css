@@ -353,6 +353,7 @@ header h1:hover {
 .profile-picture {
     max-height: 150px;
     max-width: 200px;
+    border-radius: 50%;
 }
 
 .card h4 {
@@ -463,6 +464,10 @@ div li {
 .user-view img {
     width: 300px;
     height: 300px;
+}
+
+.profile-view-image {
+    border-radius: 50%
 }
 
 /* FOOTER **********/
