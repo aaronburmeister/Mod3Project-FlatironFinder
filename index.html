@@ -38,7 +38,7 @@
         </div>
         <!-- Sign Up Form -->
         <div class="signup-main hidden">
-            <h3>Sign Up</h3>
+            <h3 id="signup-title">Sign Up</h3>
             <form id="signup-form">
                 <div id="part-1">
                     <div>
@@ -50,10 +50,6 @@
                         <div class="form-field">
                             <label for="signup-password">Password:</label>
                             <input type="password" id="signup-password" name="password" placeholder="Password">
-                        </div>
-                        <div class="form-field">
-                            <label for="password-confirm">Confirm Password:</label>
-                            <input type="password" id="password-confirm" name="password_confirm" placeholder="Confirm Password">
                         </div>
                         
                         <div class="form-field">
@@ -115,8 +111,8 @@
                     </datalist>
                     <button id="add-language">Add Language</button>
                 </div>
-                <div id="pop-up" class="hidden"></div>
-                <div id="known-languages">
+                <div id="signup-pop-up" class="hidden"></div>
+                <div id="signup-known-languages">
                     
                 </div>
                 <label for="prof-image">Profile Picture:</label>
@@ -124,6 +120,103 @@
                 <img src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png" id="prof-pic-preview" height=300 width=300>
                 <input type="submit" id="signup-button" value="Sign Up">
             </form>
+
+
+
+
+
+
+
+
+            <h3 id="edit-title" class="hidden">Edit Profile</h3>
+            <form id="edit-form" class="hidden">
+                <div id="part-1">
+                    <div>
+                        <div class="form-field">
+                            <label for="edit-username">Username:</label>
+                            <input type="text" id="edit-username" name="username" placeholder="Username">
+                        </div>
+
+                        <div class="form-field">
+                            <label for="edit-password">Password:</label>
+                            <input type="password" id="edit-password" name="password" placeholder="Password">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="edit-name">Full Name:</label>
+                            <input type="text" id="edit-name" name="name" placeholder="Name">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="edit-email">Email:</label>
+                            <input type="email" id="edit-email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-field">
+                            <label for="edit-campus">Campus:</label>
+                            <select type="text" id="edit-campus" name="campus">
+                                <option disabled selected>Please select a campus</option>
+                                <option value="Atlanta, GA">Atlanta, GA</option>
+                                <option value="Austin, TX">Austin, TX</option>
+                                <option value="Chicago, IL">Chicago, IL</option>
+                                <option value="Denver, CO">Denver, CO</option>
+                                <option value="Houston, TX">Houston, TX</option>
+                                <option value="London, UK">London, UK</option>
+                                <option value="New York City, NY">New York City, NY</option>
+                                <option value="San Francisco, CA">San Francisco, CA</option>
+                                <option value="Seattle, WA">Seattle, WA</option>
+                                <option value="Washington, D.C.">Washington, D.C.</option>
+                                <option value="Online">Online</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="edit-cohort">Your Cohort:</label>
+                            <input type="text" id="edit-cohort" name="cohort" list="cohort_list" placeholder="Cohort">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="edit-github">Your Github URL:</label>
+                            <input type="text" id="edit-github" name="github" placeholder="Github URL">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="edit-linkedin">Your LinkedIn URL:</label>
+                            <input type="text" id="edit-linkedin" name="linkedin" placeholder="LinkedIn URL">
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="edit-blog">Your Blog URL:</label>
+                            <input type="text" id="edit-blog" name="blog" placeholder="Blog URL">
+                        </div>
+                    </div>
+                </div>
+                <div id="select-languages">
+                    <label for="languages">Please enter any languages or frameworks you know:</label>
+                    <input type="text" id="edit-language" name="languages" list="edit-languages-list" placeholder="Type the language or framework here">
+                    <datalist id="edit-languages-list">
+                
+                    </datalist>
+                    <button id="edit-add-language">Add Language</button>
+                </div>
+                <div id="edit-pop-up" class="hidden"></div>
+                <div id="edit-known-languages">
+                    
+                </div>
+                <label for="edit-prof-image">Profile Picture:</label>
+                <input type="file" accept="image/jpg, image/png, image/jpeg" id="edit-prof-image">
+                <img src="https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png" id="edit-prof-pic-preview" height=300 width=300>
+                <input type="submit" id="edit-profile-save-button" value="Save Changes">
+            </form>
+
+
+
+
+
+
+
         </div>
         <!-- Logged In Page -->
         <div class="user-main hidden">

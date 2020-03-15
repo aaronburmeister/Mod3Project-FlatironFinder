@@ -239,7 +239,7 @@ header h1:hover {
     padding: 0.3rem;
 }
 
-#known-languages {
+#signup-known-languages, #edit-known-languages {
     padding: 2rem;
 }
 
@@ -254,7 +254,7 @@ header h1:hover {
     font-size: 20px;
 }
 
-#signup-button {
+#signup-button, #edit-profile-save-button {
     width: 200px;
     background-color: green;
     border-radius: 15px;
@@ -263,7 +263,7 @@ header h1:hover {
     padding: 1rem;
 }
 
-#pop-up {
+#singup-pop-up, #edit-pop-up {
     position: relative;
     bottom: 0px;
     right: 0px;
@@ -275,7 +275,7 @@ header h1:hover {
     color: black;
 }
 
-#prof-pic-preview {
+#prof-pic-preview, #edit-prof-pic-preview {
     border-radius: 50%;
     margin: 0.5rem;
 }
@@ -488,6 +488,10 @@ footer h4 {
 }
 
 /* HIDDEN *********/
+
+.signup-main .hidden {
+    display: none;
+}
 
 .hidden {
     display: none;

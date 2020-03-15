@@ -93,6 +93,7 @@ const $signupForm = document.querySelector('#signup-form')
 
 // Generate Options for Technologies
 const $datalistOptions = document.querySelector('#language-list')
+const $editDatalistOptions = document.querySelector('#edit-languages-list')
 
 fetch(`${BASE_URL}technologies`)
     .then(response => response.json())
@@ -115,6 +116,7 @@ function listTechnology(technologies, technology) {
         option.innerText = tech.name
 
         $datalistOptions.appendChild(option)
+        $editDatalistOptions.appendChild(option)
     })
 }
 
@@ -147,7 +149,6 @@ function addImage(input) {
         }).then(response => response.json())
         .then(result => {
             $preview.setAttribute('src', result.url)
-            console.log(result)
         })
         .catch(console.log)
     }
@@ -178,7 +179,7 @@ $signupForm.addEventListener('submit', event => {
     const languages = getLanguages()
     const frameworks = getFrameworks()
 
-    document.querySelector('#known-languages').innerHTML = ""
+    document.querySelector('#signup-known-languages').innerHTML = ""
     fetch(`${BASE_URL}users`, {
         method: "POST",
         headers: {
@@ -206,7 +207,7 @@ $signupForm.addEventListener('submit', event => {
 })
 
 function getLanguages() {
-    const langList = document.querySelectorAll('.language-block')
+    const langList = document.querySelectorAll(`.language-block`)
     const languageIDs = []
     langList.forEach(element => {
         if (element.getAttribute('tech') === 'languages') {
@@ -217,7 +218,7 @@ function getLanguages() {
 }
 
 function getFrameworks() {
-    const frameList = document.querySelectorAll('.language-block')
+    const frameList = document.querySelectorAll(`.language-block`)
     const frameworkIDs = []
     frameList.forEach(element => {
         if (element.getAttribute('tech') === 'frameworks') {
@@ -229,16 +230,25 @@ function getFrameworks() {
 
 // ADD LANGUAGE TO SIGNUP PAGE 
 const $addLanguageBtn = document.querySelector('#add-language')
+const $editAddLanguageBtn = document.querySelector('#edit-add-language')
 
 $addLanguageBtn.addEventListener('click', event => {
     event.preventDefault()
 
-    addToKnownLanguages(document.querySelector('#language').value)
+    addToKnownLanguages(document.querySelector('#language').value, "signup")
 
     document.querySelector('#language').value = ""
 })
 
-function addToKnownLanguages(technology) {
+$editAddLanguageBtn.addEventListener('click', event => {
+    event.preventDefault()
+
+    addToKnownLanguages(document.querySelector('#edit-language').value, "edit")
+
+    document.querySelector('#edit-language').value = ""
+})
+
+function addToKnownLanguages(technology, form) {
     const $options = document.querySelectorAll('datalist option')
     
     let $option
@@ -247,34 +257,34 @@ function addToKnownLanguages(technology) {
             $option = option
         }
     })
-    document.getElementById('pop-up').classList.remove('hidden')
-    document.getElementById('pop-up').classList.add('hidden')
-    language_ids = getLanguages()
+    document.getElementById(`${form}-pop-up`).classList.remove('hidden')
+    document.getElementById(`${form}-pop-up`).classList.add('hidden')
+    language_ids = getLanguages(form)
 
-    const $signupList = document.querySelector('#known-languages')
+    const $list = document.querySelector(`#${form}-known-languages`)
     const $span = document.createElement('span')
 
     switch ($option.getAttribute('tech')) {
         case 'languages':
-            appendSpanWithMetaData($span, $option, $signupList)
+            appendSpanWithMetaData($span, $option, $list)
             break
         case 'frameworks':
             if (language_ids.includes($option.getAttribute('lang-id'))) {
                 $span.setAttribute('lang-id', $option.getAttribute('lang-id'))
-                appendSpanWithMetaData($span, $option, $signupList)
+                appendSpanWithMetaData($span, $option, $list)
             } else {
                 fetch(`${BASE_URL}languages/${$option.getAttribute('lang-id')}`)
                     .then(response => response.json())
                     .then(response => {
-                    document.getElementById('pop-up').innerText = `You need to add ${response.name} first!`
-                    document.getElementById('pop-up').classList.remove('hidden')
+                    document.getElementById(`${form}-pop-up`).innerText = `You need to add ${response.name} first!`
+                    document.getElementById(`${form}-pop-up`).classList.remove('hidden')
                     })
             } break
     }
 
 }
 
-function appendSpanWithMetaData(span, option, signupList) {
+function appendSpanWithMetaData(span, option, list) {
     span.className = "language-block"
     span.setAttribute('tech_id', option.getAttribute('tech_id'))
     span.setAttribute('tech', option.getAttribute('tech'))
@@ -284,7 +294,7 @@ function appendSpanWithMetaData(span, option, signupList) {
     span.querySelector('ion-icon').addEventListener("click", event =>{
         event.target.parentNode.remove()
     })
-    signupList.appendChild(span)
+    list.appendChild(span)
 }
 
 /* USER MAIN *****/
@@ -296,10 +306,8 @@ function loadUsers() {
 }
 
 function renderCards(users) {
-    console.log(users)
     users.forEach(user => {
         // generate links
-        console.log( user.id, $greeting.querySelector('h3').getAttribute('dataset_id'))
         if (user.id == $greeting.querySelector('h3').getAttribute('dataset_id')) {
             generateViewLink(user)
             generateEditLink(user)
@@ -386,9 +394,101 @@ function generateEditLink(user) {
 
     editButton.id = "edit-button"
     editButton.innerText = "Edit Profile"
+    editButton.onclick = () => {
+        hide(userMain)
+        signupMain.classList.remove('hidden')
+        document.querySelector('#signup-form').classList.toggle('hidden')
+        document.querySelector('#signup-title').classList.toggle('hidden')
+        document.querySelector('#edit-form').classList.toggle('hidden')
+        document.querySelector('#edit-title').classList.toggle('hidden')
+
+        fetch(`${BASE_URL}users/${localStorage.getItem('id')}`)
+            .then(response => response.json())
+            .then(populateEditForm)
+    }
 
     document.querySelector('#my-profile').append(editButton)
 }
+
+function populateEditForm(user) {
+    document.querySelector('input#edit-username').value = user.username
+    document.querySelector('input#edit-name').value = user.name
+    document.querySelector('input#edit-email').value = user.email
+    document.querySelector('select#edit-campus').value = user.campus
+    user.cohort ? document.querySelector('input#edit-cohort').value = user.cohort : null;
+    user.github ? document.querySelector('input#edit-github').value = user.github : null;
+    user.linkedin ? document.querySelector('input#edit-linkedin').value = user.linkedin : null;
+    user.blog ? document.querySelector('input#edit-blog').value = user.blog : null;
+    user.profile_pic ? document.querySelector('img#edit-prof-pic-preview').src = user.profile_pic : null
+    user.languages.length > 0 ? addUserLanguages(user.languages) : null;
+    user.frameworks.length > 0 ? addUserFrameworks(user.frameworks) : null;
+}
+
+function addUserLanguages(languages) {
+    languages.forEach( language => {
+        addToKnownLanguages(language.name, "edit")
+    })
+}
+
+function addUserFrameworks(frameworks) {
+    frameworks.forEach( framework => {
+        addToKnownLanguages(framework.name, "edit")
+    })
+}
+
+const $editForm = document.querySelector('#edit-form')
+
+$editForm.addEventListener('submit', event => {
+    event.preventDefault()
+
+    const formData = new FormData(event.target)
+    const user = {}
+    user['username'] = formData.get('username')
+    if (formData.get('password')) user['password'] = formData.get('password')
+    user['name'] = formData.get('name')
+    user['email'] = formData.get('email')
+    user['campus'] = formData.get('campus')
+    if (formData.get('cohort')) user['cohort'] = formData.get('cohort')
+    if (formData.get('github')) user['github'] = formData.get('github')
+    if (formData.get('linkedin')) user['linkedin'] = formData.get('linkedin')
+    if (formData.get('edit-blog')) user['blog'] = formData.get('blog')
+    if (document.querySelector('#edit-prof-pic-preview').src !== "https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png") {
+        user['profile_pic'] = document.querySelector('edit-prof-pic-preview').src
+    }
+    const languages = getLanguages()
+    const frameworks = getFrameworks()
+
+    document.querySelector('#edit-known-languages').innerHTML = ""
+
+    fetch(`${BASE_URL}users/${localStorage.getItem('id')}`, {
+        method: "PATCH",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        body: JSON.stringify({user: user, languages: languages, frameworks: frameworks})
+    }).then(response => response.json())
+    .then(response => {
+        if (response.error) {
+            let alertMessage = ""
+            Object.keys(response.error).forEach( key => {
+                Object.values(response.error[key]).forEach( value => {
+                    alertMessage += `${key} ${value} \n`
+                })
+            })
+            alert(alertMessage)
+        } else {
+            alert("Your changes were successfully saved!")
+            document.querySelector('#signup-form').classList.toggle('hidden')
+            document.querySelector('#signup-title').classList.toggle('hidden')
+            document.querySelector('#edit-form').classList.toggle('hidden')
+            document.querySelector('#edit-title').classList.toggle('hidden')
+            hide(signupMain)
+            userMain.classList.remove('hidden')
+            event.target.reset()
+        }
+    })
+})
 
 function generateDelete(user) {
     const deleteButton = document.createElement('button')
@@ -405,15 +505,7 @@ function generateDelete(user) {
             }).then(response => response.json())
             .then(response => {
                 if (response.user) {
-                    // request api delete profile image
                     logOut()
-                    const imageName = response.user.profile_pic.split("/").pop().split(".")[0]
-                    const public_id = "flatiron_finder_profile_pics/" + imageName
-                    console.log(public_id)
-                    fetch(`https://res.cloudinary.com/oneflatboi/image/destroy`, {
-                        method: "POST",
-                        body: JSON.stringify({ public_id })
-                    })
                 } else {
                     alert(response.message)
                 }
@@ -456,7 +548,7 @@ function createUserView(user) {
                 <div class="user-info">
                     <h2>${user.name}</h2>
                     <h3>${user.campus}</h3>
-                    <h3>${user.cohort}</h3>
+                    <h3>${user.cohort ? user.cohort : ""}</h3>
                     <div class="profile-icon-links">
                         <a href="mailto:${user.email}"><ion-icon name="mail"></ion-icon></a>
                     </div>
@@ -493,7 +585,7 @@ function createUserView(user) {
         `
         $profileLinks.prepend(githubLink)
     }
-
+    console.log(user)
     user.languages.forEach( language => {
         const div = document.createElement('div')
         div.innerText = language.name
@@ -503,8 +595,8 @@ function createUserView(user) {
                 li.innerText = framework.name
                 div.appendChild(li)
             }
-        document.querySelector('.language-list').appendChild(div)
         })
+        document.querySelector('.language-list').appendChild(div)
     })
 }
 
