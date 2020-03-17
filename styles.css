@@ -419,6 +419,7 @@ header h1:hover {
 
 .user-header {
     display: flex;
+    padding: 1rem;
 }
 
 .user-info {
@@ -438,6 +439,7 @@ header h1:hover {
 
 .user-view h4 {
     font-size: 24px;
+    padding: 1rem;
 }
 
 .language-list {
@@ -445,7 +447,7 @@ header h1:hover {
 }
 
 .language-list div {
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 div li {

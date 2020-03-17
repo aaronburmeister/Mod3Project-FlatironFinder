@@ -1,4 +1,5 @@
-const BASE_URL = "https://flatiron-finder-backend.herokuapp.com/"
+// const BASE_URL = "http://localhost:3000/"
+const BASE_URL = "https://flatiron-finder.firebaseapp.com/"
 
 // All main pages
 const splashMain = document.querySelector('.splash-main')
@@ -400,6 +401,7 @@ function generateEditLink(user) {
         document.querySelector('#signup-title').classList.toggle('hidden')
         document.querySelector('#edit-form').classList.toggle('hidden')
         document.querySelector('#edit-title').classList.toggle('hidden')
+        document.querySelector('.edit-back-button').classList.toggle('hidden')
 
         fetch(`${BASE_URL}users/${localStorage.getItem('id')}`)
             .then(response => response.json())
@@ -541,13 +543,23 @@ function createUserView(user) {
     let src;
     user.profile_pic ? src = user.profile_pic : src = "https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png" 
 
+    function showUsername () {
+        if (user.id == $greeting.querySelector('h3').getAttribute('dataset_id')) {
+            return("Username: " + user.username)
+        } else {
+            return ("")
+        }
+    }
+
     userView.innerHTML = `
         <div class="user-header">
                 <img class="profile-view-image" src="${src}">
                 <div class="user-info">
                     <h2>${user.name}</h2>
+                    <h3>${showUsername()}</h3>
                     <h3>${user.campus}</h3>
                     <h3>${user.cohort ? user.cohort : ""}</h3>
+                    <h3>${user.email}</h3>
                     <div class="profile-icon-links">
                         <a href="mailto:${user.email}"><ion-icon name="mail"></ion-icon></a>
                     </div>
@@ -613,6 +625,7 @@ if (localStorage.token) {
 
 function backToMain() {
     hide(userView)
+    hide(signupMain)
     userMain.classList.remove('hidden')
 }
 
