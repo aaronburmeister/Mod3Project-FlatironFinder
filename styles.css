@@ -263,7 +263,7 @@ header h1:hover {
     padding: 1rem;
 }
 
-#singup-pop-up, #edit-pop-up {
+#signup-pop-up, #edit-pop-up {
     position: relative;
     bottom: 0px;
     right: 0px;

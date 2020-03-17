@@ -1,4 +1,4 @@
-const BASE_URL = "https://flatiron-finder-backend.herokuapp.com/"
+const BASE_URL = "http://localhost:3000/"
 
 // All main pages
 const splashMain = document.querySelector('.splash-main')
@@ -92,8 +92,7 @@ $signupButton.addEventListener('click', event => {
 const $signupForm = document.querySelector('#signup-form')
 
 // Generate Options for Technologies
-const $datalistOptions = document.querySelector('#language-list')
-const $editDatalistOptions = document.querySelector('#edit-languages-list')
+const $datalistOptions = document.querySelector('datalist#language-list')
 
 fetch(`${BASE_URL}technologies`)
     .then(response => response.json())
@@ -116,7 +115,6 @@ function listTechnology(technologies, technology) {
         option.innerText = tech.name
 
         $datalistOptions.appendChild(option)
-        $editDatalistOptions.appendChild(option)
     })
 }
 
@@ -453,7 +451,7 @@ $editForm.addEventListener('submit', event => {
     if (formData.get('linkedin')) user['linkedin'] = formData.get('linkedin')
     if (formData.get('edit-blog')) user['blog'] = formData.get('blog')
     if (document.querySelector('#edit-prof-pic-preview').src !== "https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png") {
-        user['profile_pic'] = document.querySelector('edit-prof-pic-preview').src
+        user['profile_pic'] = document.querySelector('#edit-prof-pic-preview').src
     }
     const languages = getLanguages()
     const frameworks = getFrameworks()
@@ -585,7 +583,6 @@ function createUserView(user) {
         `
         $profileLinks.prepend(githubLink)
     }
-    console.log(user)
     user.languages.forEach( language => {
         const div = document.createElement('div')
         div.innerText = language.name
