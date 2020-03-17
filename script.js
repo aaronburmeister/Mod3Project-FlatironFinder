@@ -200,6 +200,7 @@ $signupForm.addEventListener('submit', event => {
             loginMain.classList.remove('hidden')
             alert("Your registration was successful! You can now log in!")
             event.target.reset()
+            $preview.setAttribute('src', "https://www.pngitem.com/pimgs/m/111-1114658_person-png-outline-outline-of-person-face-transparent.png")
         }
     })
 })
