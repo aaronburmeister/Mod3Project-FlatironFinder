@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/"
+const BASE_URL = "https://flatiron-finder-backend.herokuapp.com/"
 
 // All main pages
 const splashMain = document.querySelector('.splash-main')
