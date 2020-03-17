@@ -1,5 +1,5 @@
-const BASE_URL = "http://localhost:3000/"
-// const BASE_URL = "https://flatiron-finder.firebaseapp.com/"
+// const BASE_URL = "http://localhost:3000/"
+const BASE_URL = "https://flatiron-finder.firebaseapp.com/"
 
 // All main pages
 const splashMain = document.querySelector('.splash-main')
