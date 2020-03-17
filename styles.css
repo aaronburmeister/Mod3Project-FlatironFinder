@@ -397,7 +397,7 @@ header h1:hover {
 
 #my-profile {
     min-width: 200px;
-    height: 100px;
+    height: fit-content;
     border-style: solid;
     border-width: 2px;
     border-color: skyblue;
@@ -406,8 +406,20 @@ header h1:hover {
     display: flex;
     flex-direction: column;
     text-align: center;
-    justify-content: center;
 }
+
+#view-button, #edit-button, #delete-button {
+    width: 60%;
+    margin: 0.5rem;
+    align-self: center;
+    padding: 0.5rem;
+}
+
+#delete-button {
+    background-color: crimson;
+    color: white;
+}
+
 
 /* PROFILE VIEW *****/
 
@@ -470,6 +482,11 @@ div li {
 
 .profile-view-image {
     border-radius: 50%
+}
+
+.back-button, .edit-back-button {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    margin: 1rem;
 }
 
 /* FOOTER **********/

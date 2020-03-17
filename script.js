@@ -1,5 +1,5 @@
-// const BASE_URL = "http://localhost:3000/"
-const BASE_URL = "https://flatiron-finder.firebaseapp.com/"
+const BASE_URL = "http://localhost:3000/"
+// const BASE_URL = "https://flatiron-finder.firebaseapp.com/"
 
 // All main pages
 const splashMain = document.querySelector('.splash-main')
@@ -308,7 +308,7 @@ function loadUsers() {
 function renderCards(users) {
     users.forEach(user => {
         // generate links
-        if (user.id == $greeting.querySelector('h3').getAttribute('dataset_id')) {
+        if (user.id == $greeting.querySelector('h3').getAttribute('dataset_id') && !document.querySelector('#view-button')) {
             generateViewLink(user)
             generateEditLink(user)
             generateDelete(user)
